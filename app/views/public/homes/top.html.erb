@@ -1,1 +1,25 @@
 <h1>ここはpublicトップページです</h1>
+
+<h1>新しい支払い</h1>
+<%= form_with(model: @expense, local: true) do |f| %>
+  <%= f.label :description, "支払いの内容" %>
+  <%= f.text_field :description %>
+
+  <%= f.label :amount, "金額" %>
+  <%= f.number_field :amount %>
+
+  <%= f.label :payer_id, "支払った人" %>
+  <%= f.collection_select :payer_id, @group.users, :id, :name %>
+
+  <%= f.label :members, "割り勘するメンバー" %>
+  <%= f.collection_check_boxes :user_ids, @group.users, :id, :name %>
+
+  <%= f.submit "登録" %>
+<% end %>
+
+
+
+<h2>精算結果</h2>
+<% @group.calculate_balances.each do |transaction| %>
+  <p><%= transaction[:from].name %> は <%= transaction[:to].name %> に <%= transaction[:amount] %> 円支払う</p>
+<% end %>
