@@ -1,0 +1,35 @@
+<h1>新しい支払い</h1>
+<%= form_with model: @expense, url: group_expenses_path(@group.id), local: true do |f| %>
+  <%= f.label :description, "支払いの内容" %>
+  <%= f.text_field :description %>
+  <br>
+
+  <%= f.label :amount, "金額" %>
+  <%= f.number_field :amount %>
+  <br>
+
+  <%= f.label :payer_id, "支払った人" %>
+  <%= f.select :payer_id , options_from_collection_for_select(@members, :id, :id) %>
+  <br>
+
+  <%= f.label :members, "割り勘するメンバー" %>
+  <%#= f.collection_check_boxes :user_ids, @members, :id, :id %>
+  <%= f.collection_check_boxes(:id, @members, :id, :id) %>
+  <br>
+
+  <%= f.submit "登録" %>
+<% end %>
+
+
+<h2>精算結果</h2>
+<% @group.calculate_balances.each do |transaction| %>
+  <p><%= transaction[:from].name %> は <%= transaction[:to].name %> に <%= transaction[:amount] %> 円支払う</p>
+<% end %>
+
+
+<%# unless @group.is_owned_by?(current_user) %>
+<%# elsif @group.includesUser?(current_user)%>
+  <%= link_to 'このグループから退会', group_membership_path(@group.id), method: :delete %>
+<%# else %>
+  <%= link_to 'このグループに参加', group_memberships_path(@group.id), method: :post %>
+<%# end %>
