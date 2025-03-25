@@ -19,7 +19,7 @@ class Public::GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @members = @group.memberships
+    @members = @group.users
     @expense = Expense.new
   end
 

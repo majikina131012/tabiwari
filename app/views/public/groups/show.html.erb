@@ -14,7 +14,7 @@
 
   <%= f.label :members, "割り勘するメンバー" %>
   <%#= f.collection_check_boxes :user_ids, @members, :id, :id %>
-  <%= f.collection_check_boxes(:id, @members, :id, :id) %>
+  <%= f.collection_check_boxes(:user_ids, @members, :id, :id) %>
   <br>
 
   <%= f.submit "登録" %>
@@ -23,7 +23,7 @@
 
 <h2>精算結果</h2>
 <% @group.calculate_balances.each do |transaction| %>
-  <p><%= transaction[:from].name %> は <%= transaction[:to].name %> に <%= transaction[:amount] %> 円支払う</p>
+  <p><%= transaction[:from].id %> は <%= transaction[:to].id %> に <%= transaction[:amount] %> 円支払う</p>
 <% end %>
 
 

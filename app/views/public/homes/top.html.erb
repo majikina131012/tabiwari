@@ -3,7 +3,7 @@
 <% if user_signed_in? %>
 
   <% @groups.each do |group| %>
-    <%= link_to group_path(@group.id) do %>
+    <%= link_to group_path(group.id) do %>
       <%= group.name %>と割り勘を始める
     <% end %>
   <% end %>

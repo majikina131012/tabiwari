@@ -17,9 +17,9 @@ class Group < ApplicationRecord
     expenses.each do |expense|
       total_amount = expense.amount
       payer = expense.payer
-      members = expense.expense_shares.map(&:user)
+      members = expense.shares.map(&:user)
 
-      share = total_amount / members.count
+      share = total_amount / members.count.to_f
 
       members.each do |member|
         balances[member] -= share
