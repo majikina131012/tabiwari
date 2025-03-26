@@ -6,33 +6,47 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
     <header>
-      <% if user_signed_in? %>
-        <li>
-          <%= link_to destroy_user_session_path, method: :delete do %>
-            Logout
-          <% end %>
-        </li>
-      <% else %>
-        <li>
-          <%= link_to new_user_registration_path do %>
-            Signup
-          <% end %>
-        </li>
-        <li>
-          <%= link_to new_user_session_path do %>
-            Login
-          <% end %>
-        </li>
-    <% end %>
+      <nav class="navbar">
+        <div class='container'>
+        <h1>割り勘用</h1>
+          <ul class="nav justify-content-end">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-lg' do %>
+                  ログアウト
+                <% end %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to new_user_registration_path, class: 'btn btn-outline-success btn-lg' do %>
+                  新規登録
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to new_user_session_path, class: 'btn btn-outline-primary btn-lg ml-5' do %>
+                  ログイン
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
     </header>
     <main>
-      <%= yield %>
+      <div class='container'>
+        <%= yield %>
+      </div>
     </main>
+    <footer>
+      <div class='container'>
+        majikina
+      </div>
+    </footer>
   </body>
 </html>
