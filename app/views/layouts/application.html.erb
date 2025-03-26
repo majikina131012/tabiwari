@@ -11,6 +11,28 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <% if user_signed_in? %>
+        <li>
+          <%= link_to destroy_user_session_path, method: :delete do %>
+            Logout
+          <% end %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to new_user_registration_path do %>
+            Signup
+          <% end %>
+        </li>
+        <li>
+          <%= link_to new_user_session_path do %>
+            Login
+          <% end %>
+        </li>
+    <% end %>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

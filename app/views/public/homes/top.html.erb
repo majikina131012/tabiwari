@@ -1,0 +1,14 @@
+<h1>ここはpublicトップページです</h1>
+
+<% if user_signed_in? %>
+
+  <% @groups.each do |group| %>
+    <%= link_to group_path(group.id) do %>
+      <%= group.name %>と割り勘を始める
+    <% end %>
+  <% end %>
+
+  <%= link_to "グループを作成する", new_group_path %>
+  <%= link_to "グループ一覧", groups_path %>
+
+<% end %>
