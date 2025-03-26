@@ -9,12 +9,11 @@
   <br>
 
   <%= f.label :payer_id, "支払った人" %>
-  <%= f.select :payer_id , options_from_collection_for_select(@members, :id, :id) %>
+  <%= f.select :payer_id , options_from_collection_for_select(@members, :id, :name) %>
   <br>
 
   <%= f.label :members, "割り勘するメンバー" %>
-  <%#= f.collection_check_boxes :user_ids, @members, :id, :id %>
-  <%= f.collection_check_boxes(:user_ids, @members, :id, :id) %>
+  <%= f.collection_check_boxes(:user_ids, @members, :id, :name) %>
   <br>
 
   <%= f.submit "登録" %>
@@ -23,7 +22,7 @@
 
 <h2>精算結果</h2>
 <% @group.calculate_balances.each do |transaction| %>
-  <p><%= transaction[:from].id %> は <%= transaction[:to].id %> に <%= transaction[:amount] %> 円支払う</p>
+  <p><%= transaction[:from].name %> は <%= transaction[:to].name %> に <%= transaction[:amount].round %> 円支払う</p>
 <% end %>
 
 
