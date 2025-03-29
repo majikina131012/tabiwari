@@ -13,7 +13,11 @@ devise_for :admin, controllers: {
   scope module: :public do
     resources :groups, only: [:new, :create, :index, :show] do
       resources :memberships, only: [:create, :destroy]
-      resources :expenses, only: [:create]
+      resources :expenses, only: [:create, :destroy] do
+        collection do
+          delete :reset_all
+        end
+      end
     end
   end
 end

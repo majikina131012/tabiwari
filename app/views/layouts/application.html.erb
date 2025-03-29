@@ -14,7 +14,9 @@
     <header>
       <nav class="navbar">
         <div class='container'>
-        <h1>割り勘用</h1>
+          <%= link_to root_path do %>
+            <h1>割り勘用</h1>
+          <% end %>
           <ul class="nav justify-content-end">
             <% if user_signed_in? %>
               <li class="nav-item">
@@ -43,10 +45,5 @@
         <%= yield %>
       </div>
     </main>
-    <footer>
-      <div class='container'>
-        majikina
-      </div>
-    </footer>
   </body>
 </html>

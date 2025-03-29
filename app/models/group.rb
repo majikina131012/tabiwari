@@ -3,12 +3,8 @@ class Group < ApplicationRecord
   has_many :users, through: :memberships
   has_many :expenses
 
-  def is_owned_by?(user)
-    owner_id == user.id
-  end
-
   def includesUser?(user)
-    group_users.exists?(user_id: user.id)
+    users.exists?(id: user.id)
   end
 
   def calculate_balances

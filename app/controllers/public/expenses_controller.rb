@@ -2,17 +2,26 @@ class Public::ExpensesController < ApplicationController
   def create
     expense = Expense.new(expense_params.except(:user_ids)) # user_idsを除外してExpenseを作成
     expense.group_id = params[:group_id]
-
     if expense.save
-      # 割り勘するメンバーを保存
       expense_params[:user_ids].each do |user_id|
         Share.create(expense_id: expense.id, user_id: user_id)
       end
-
-      redirect_to group_path(expense.group_id)
+        redirect_to group_path(expense.group_id)
     else
       render root_path
     end
+  end
+
+  def destroy
+    @group = Group.find(params[:group_id])
+    @group.expenses.destroy_all
+    redirect_to group_path(@group), notice: "精算をリセットしました"
+  end
+
+  def reset_all
+    @group = Group.find(params[:group_id])
+    @group.expenses.destroy_all
+    redirect_to group_path(@group.id), notice: "全ての精算データをリセットしました"
   end
 
   private
