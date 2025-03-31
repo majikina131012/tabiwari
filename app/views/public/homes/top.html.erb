@@ -1,0 +1,23 @@
+<div class='row'>
+  <% if user_signed_in? %>
+
+    <% @groups.each do |group| %>
+      <div class='m-3'>
+        <%= link_to group_path(group.id), class: 'btn btn-light btn-lg' do %>
+          <%= group.name %>で割り勘を始める
+        <% end %>
+      </div>
+    <% end %>
+</div>
+
+<div class='row mt-4'>
+  <div class='m-3'>
+    <%= link_to "グループを作成する", new_group_path, class: 'btn btn-info btn-lg mr-4' %>
+  </div>
+  <div class='m-3'>
+    <%= link_to "グループ一覧", groups_path, class: 'btn btn-info btn-lg' %>
+  </div>
+  <% else %>
+  <h2>ログインしてください</h2>
+  <% end %>
+</div>
