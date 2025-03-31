@@ -2,12 +2,14 @@
   <thead>
     <tr>
       <th><h2>グループ一覧</h2></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <% @groups.each do |group| %>
       <tr>
         <td><%= link_to group.name, group_path(group), class: 'btn btn-light btn-lg m-2' %></td>
+        <td><%= link_to "#{group.name} を削除する", group_path(group.id), method: :delete, class: 'btn btn-danger btn-lg', data: { confirm: '本当に削除しますか？' } %></td>
       </tr>
     <% end %>
   </tbody>
