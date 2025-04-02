@@ -1,0 +1,30 @@
+<h2>精算履歴</h2>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>支払人</th>
+      <th>金額</th>
+      <th>内容</th>
+      <th>支払相手</th>
+      <th>日付</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @expenses.each do |expense| %>
+      <tr>
+        <td><%= expense.payer.name %></td>
+        <td><%= expense.amount.round %> 円</td>
+        <td><%= expense.description %></td>
+        <td>
+          <% expense.shares.each do |share| %>
+            <%= share.user.name %><% unless share == expense.shares.last %>, <% end %>
+          <% end %>
+        </td>
+        <td><%= expense.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to '戻る', group_path(@group.id), class:'btn btn-info' %>
+

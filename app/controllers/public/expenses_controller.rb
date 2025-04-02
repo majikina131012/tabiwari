@@ -12,6 +12,13 @@ class Public::ExpensesController < ApplicationController
     end
   end
 
+  def show
+    @group = Group.find(params[:id])
+    @members = @group.users
+    @expense = Expense.new
+    @expenses = @group.expenses.includes(:payer, :shares)
+  end
+
   def destroy
     @group = Group.find(params[:group_id])
     @group.expenses.destroy_all
