@@ -1,4 +1,11 @@
 <div class="container mt-4">
+  <div class="group-info">
+    グループ名：<%= @group.name %><br>
+    メンバー：
+    <% @members.each do |user| %>
+      <%= link_to user.name, edit_user_path(user.id) %>
+    <% end %>
+  </div>
   <div class="card">
     <div class="card-header bg-primary text-white">
       <h1 class="h4 mb-0">支払い</h1>
