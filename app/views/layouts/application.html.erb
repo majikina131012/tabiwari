@@ -35,6 +35,11 @@
                   ログイン
                 <% end %>
               </li>
+              <li class="nav-item">
+                <%= link_to guest_sign_in_path, method: :post, class: 'btn btn-outline-secondary btn-lg ml-5' do %>
+                  ゲストログイン
+                <% end %>
+              </li>
             <% end %>
           </ul>
         </div>
@@ -42,6 +47,7 @@
     </header>
     <main>
       <div class='container'>
+        <%= flash[:notice] %>
         <%= yield %>
       </div>
     </main>
