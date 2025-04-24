@@ -11,11 +11,11 @@ class Group < ApplicationRecord
 
   def calculate_balances
     balances = Hash.new(0)
+
     expenses.each do |expense|
       total_amount = expense.amount
       payer = expense.payer
       members = expense.shares.map(&:user)
-
       share = total_amount / members.count.to_f
 
       members.each do |member|
