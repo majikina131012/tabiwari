@@ -19,9 +19,9 @@ class Group < ApplicationRecord
       share = total_amount / members.count.to_f
 
       members.each do |member|
-        balances[member] -= share
+        balances[member] -= share unless member == payer
       end
-      balances[payer] += total_amount
+      balances[payer] += total_amount - share
     end
 
     # 誰が誰にいくら払うべきかを計算
@@ -32,15 +32,18 @@ class Group < ApplicationRecord
     while debtors.any? && creditors.any?
       debtor, debt_amount = debtors.first
       creditor, credit_amount = creditors.first
-
-      payment = [debt_amount.abs, credit_amount].min
+  
+      payment = [debt_amount.abs, credit_amount].min.round(2)
       transactions << { from: debtor, to: creditor, amount: payment }
-
-      debtors.first[1] += payment
-      creditors.first[1] -= payment
-
-      debtors.shift if debtors.first[1].zero?
-      creditors.shift if creditors.first[1].zero?
+  
+      balances[debtor] += payment
+      balances[creditor] -= payment
+  
+      debtors[0][1] += payment
+      creditors[0][1] -= payment
+  
+      debtors.shift if balances[debtor].round(2).zero?
+      creditors.shift if balances[creditor].round(2).zero?
     end
 
     transactions

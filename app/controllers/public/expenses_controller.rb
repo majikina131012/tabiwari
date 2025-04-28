@@ -1,12 +1,13 @@
 class Public::ExpensesController < ApplicationController
   def create
-    expense = Expense.new(expense_params.except(:user_ids)) # user_idsを除外してExpenseを作成
+    expense = Expense.new(expense_params)
     expense.group_id = params[:group_id]
     if expense.save
-      expense_params[:user_ids].each do |user_id|
+      params[:expense][:user_ids].each do |user_id|#ここに支払いをシェアするメンバーをすべて取得する
+        next if user_id.blank?
         Share.create(expense_id: expense.id, user_id: user_id)
       end
-        redirect_to group_path(expense.group_id)
+      redirect_to group_path(expense.group_id)
     else
       render root_path
     end
@@ -34,6 +35,6 @@ class Public::ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.require(:expense).permit(:amount, :description, :payer_id).merge(user_ids: params[:expense].fetch(:user_ids, []).reject(&:blank?))
+    params.require(:expense).permit(:amount, :description, :payer_id, user_ids: [])
   end
 end
