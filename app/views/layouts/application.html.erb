@@ -15,12 +15,17 @@
       <nav class="navbar">
         <div class='container'>
           <%= link_to root_path do %>
-            <h1>割り勘用</h1>
+            <h1>TabiWari</h1>
           <% end %>
           <ul class="nav justify-content-end">
             <% if user_signed_in? %>
               <li class="nav-item">
-                <%= link_to destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-lg' do %>
+                <%= link_to groups_path, class: 'btn btn-outline-info btn-lg ml-5' do %>
+                  グループ一覧
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-lg ml-5' do %>
                   ログアウト
                 <% end %>
               </li>
@@ -35,6 +40,11 @@
                   ログイン
                 <% end %>
               </li>
+              <li class="nav-item">
+                <%= link_to guest_sign_in_path, method: :post, class: 'btn btn-outline-secondary btn-lg ml-5' do %>
+                  ゲストログイン
+                <% end %>
+              </li>
             <% end %>
           </ul>
         </div>
@@ -42,6 +52,7 @@
     </header>
     <main>
       <div class='container'>
+        <%= flash[:notice] %>
         <%= yield %>
       </div>
     </main>

@@ -5,3 +5,21 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+User.create!([
+  { name: 'Aさん', email: 'a@example.com', password: '111111' },
+  { name: 'Bさん', email: 'b@example.com', password: '111111' },
+  { name: 'Cさん', email: 'c@example.com', password: '111111' },
+  { name: 'Dさん', email: 'd@example.com', password: '111111' }
+])
+
+Group.create!([
+  { name: 'TEST'}
+])
+
+Membership.create!([
+  { user_id: 1, group_id: 1},
+  { user_id: 2, group_id: 1},
+  { user_id: 3, group_id: 1},
+  { user_id: 4, group_id: 1}
+])

@@ -8,9 +8,15 @@ devise_for :users, controllers: {
 devise_for :admin, controllers: {
   sessions: "admin/sessions"
 }
+
+devise_scope :user do
+  post "guest_sign_in", to: "public/sessions#guest_sign_in"
+end
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'public/homes#top'
   scope module: :public do
+    resources :users, only: [:edit, :update]
     resources :groups, only: [:new, :create, :index, :show, :destroy] do
       resources :memberships, only: [:create, :destroy]
       resources :expenses, only: [:create, :destroy, :show] do

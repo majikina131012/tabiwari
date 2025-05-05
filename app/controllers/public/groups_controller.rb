@@ -5,7 +5,6 @@ class Public::GroupsController < ApplicationController
 
   def create
     group = Group.new(group_params)
-    group.owner_id = current_user.id
     if group.save
       redirect_to group_path(group.id)
     else
@@ -21,6 +20,7 @@ class Public::GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @members = @group.users
     @expense = Expense.new
+    @settlements = @settlements = @group.optimized_settlements
   end
 
   def destroy

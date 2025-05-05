@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 2025_03_21_055916) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name"
-    t.integer "owner_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -57,7 +56,10 @@ ActiveRecord::Schema.define(version: 2025_03_21_055916) do
   create_table "shares", force: :cascade do |t|
     t.integer "user_id"
     t.integer "expense_id"
-    t.float "share_amount"
+    t.float "burden_amount"
+    t.float "must_pay"
+    t.float "pay"
+    t.integer "pay_to_user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

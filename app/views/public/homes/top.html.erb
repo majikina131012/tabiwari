@@ -1,23 +1,51 @@
-<div class='row'>
+<div class="container mt-5">
   <% if user_signed_in? %>
+    <div class="mb-4">
+      <h2 class="mb-3">参加中のグループ</h2>
 
-    <% @groups.each do |group| %>
-      <div class='m-3'>
-        <%= link_to group_path(group.id), class: 'btn btn-light btn-lg' do %>
-          <%= group.name %>で割り勘を始める
-        <% end %>
+      <% if @groups.any? %>
+        <div class="row">
+          <% @groups.each do |group| %>
+            <div class="col-md-6 col-lg-4 mb-3">
+              <div class="card h-100">
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                  <h5 class="card-title"><%= group.name %></h5>
+                  <%= link_to "#{group.name} で割り勘を始める", group_path(group.id), class: 'btn btn-outline-primary mt-3' %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="alert alert-secondary">
+          参加しているグループはありません。
+        </div>
+      <% end %>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header bg-info text-white">
+        <h3 class="mb-0">このアプリの使い方</h3>
       </div>
-    <% end %>
-</div>
+      <div class="card-body">
+        <ul class="mb-0">
+          <li><strong>グループを作成・参加：</strong><br>
+            グループを作って参加します。</li>
+          <li><strong>支払いを記録：</strong><br>
+            割り勘するメンバーを選択し、「誰が」「何に」「いくら」支払ったかを入力します。</li>
+          <li><strong>自動で精算結果を表示：</strong><br>
+            誰が誰にいくら払えば良いのか自動で表示されます。</li>
+        </ul>
+      </div>
+    </div>
 
-<div class='row mt-4'>
-  <div class='m-3'>
-    <%= link_to "グループを作成する", new_group_path, class: 'btn btn-info btn-lg mr-4' %>
-  </div>
-  <div class='m-3'>
-    <%= link_to "グループ一覧", groups_path, class: 'btn btn-info btn-lg' %>
-  </div>
+    <div class="text-center">
+      <%= link_to "グループを作成する", new_group_path, class: 'btn btn-info btn-lg mr-3 mb-2' %>
+    </div>
+
   <% else %>
-  <h2>ログインしてください</h2>
+    <div class="alert alert-warning text-center">
+      <h4>ログインしてください</h4>
+    </div>
   <% end %>
 </div>

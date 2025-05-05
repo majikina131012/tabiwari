@@ -3,85 +3,55 @@ class Group < ApplicationRecord
   has_many :users, through: :memberships
   has_many :expenses
 
+  validates :name, presence: true
+
   def includesUser?(user)
     users.exists?(id: user.id)
   end
 
-  # def calculate_balances
-  #   balances = Hash.new(0)
-  #   expenses.each do |expense|
-  #     total_amount = expense.amount
-  #     payer = expense.payer
-  #     members = expense.shares.map(&:user)
+  def optimized_settlements
+    # 差額計算
+    balance = Hash.new(0)
 
-  #     share = total_amount / members.count.to_f
+    shares = Share.joins(:expense).where(expenses: { group_id: id })
 
-  #     members.each do |member|
-  #       balances[member] -= share
-  #     end
-  #     balances[payer] += total_amount
-  #   end
+    shares.each do |share|
+      balance[share.user_id] += share.pay.to_f
+      balance[share.user_id] -= share.must_pay.to_f
+    end
 
-  #   # 誰が誰にいくら払うべきかを計算
-  #   transactions = []
-  #   creditors = balances.select { |_, v| v > 0 }.sort_by { |_, v| -v }
-  #   debtors = balances.select { |_, v| v < 0 }.sort_by { |_, v| v.abs }
+    # 正負分け
+    creditors = balance.select { |_, v| v > 0 }.to_a.sort_by { |_, v| -v } # 多く払った人
+    debtors   = balance.select { |_, v| v < 0 }.to_a.sort_by { |_, v| v }  # 払い足りない人
 
-  #   while debtors.any? && creditors.any?
-  #     debtor, debt_amount = debtors.first
-  #     creditor, credit_amount = creditors.first
+    settlements = []
 
-  #     payment = [debt_amount.abs, credit_amount].min
-  #     transactions << { from: debtor, to: creditor, amount: payment }
+    # 支払い処理
+    debtors.each do |debtor_id, debt_amount|
+      debt_amount = -debt_amount
 
-  #     debtors.first[1] += payment
-  #     creditors.first[1] -= payment
+      creditors.each_with_index do |(creditor_id, credit_amount), i|
+        next if credit_amount <= 0
 
-  #     debtors.shift if debtors.first[1].zero?
-  #     creditors.shift if creditors.first[1].zero?
-  #   end
+        payment = [debt_amount, credit_amount].min
 
-  #   transactions
-  # end
+        settlements << {
+          from: User.find(debtor_id),
+          to: User.find(creditor_id),
+          amount: payment.round
+        }
 
+        balance[debtor_id] += payment
+        balance[creditor_id] -= payment
 
-  def calculate_balances
-    balances = Hash.new { |hash, key| hash[key] = 0.0 }
-  
-    expenses.each do |expense|
-      total_amount = expense.amount
-      payer = expense.payer
-      members = expense.shares.map(&:user)
-  
-      next if members.empty? # 割り勘対象がいない場合はスキップ
-  
-      share = total_amount / members.count.to_f
-  
-      members.each do |member|
-        balances[member] -= share
+        creditors[i][1] -= payment
+        debt_amount -= payment
+
+        break if debt_amount <= 0
       end
-      balances[payer] += total_amount
     end
-  
-    transactions = []
-    creditors = balances.select { |_, v| v > 0 }.map { |k, v| { user: k, amount: v } }.sort_by { |h| -h[:amount] }
-    debtors = balances.select { |_, v| v < 0 }.map { |k, v| { user: k, amount: v.abs } }.sort_by { |h| h[:amount] }
-  
-    while debtors.any? && creditors.any?
-      debtor = debtors.first
-      creditor = creditors.first
-  
-      payment = [debtor[:amount], creditor[:amount]].min
-      transactions << { from: debtor[:user], to: creditor[:user], amount: payment }
-  
-      debtor[:amount] -= payment
-      creditor[:amount] -= payment
-  
-      debtors.shift if debtor[:amount].zero?
-      creditors.shift if creditor[:amount].zero?
-    end
-  
-    transactions
+
+    settlements
   end
   
 

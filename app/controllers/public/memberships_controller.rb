@@ -12,8 +12,8 @@ class Public::MembershipsController < ApplicationController
   end
 
   def destroy
-    membership = Membership.find_by(params[:group_id])
-    if membership.destroy
+    member = Membership.find_by(user_id: current_user.id)
+    if member.destroy
       redirect_to request.referer
     else
       render groups_path
