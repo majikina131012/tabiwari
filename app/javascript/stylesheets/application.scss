@@ -1,1 +1,11 @@
 @use '~bootstrap/scss/bootstrap';
+
+.big-checkbox input[type="checkbox"] {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.big-checkbox .form-check-label {
+  font-size: 1.2em;
+  margin-left: 0.5em;
+}
