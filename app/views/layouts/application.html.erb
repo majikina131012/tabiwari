@@ -12,41 +12,48 @@
 
   <body>
     <header>
-      <nav class="navbar">
-        <div class='container'>
-          <%= link_to root_path do %>
-            <h1>TabiWari</h1>
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container">
+          <%= link_to root_path, class: 'navbar-brand' do %>
+            <h1 class="h4 mb-0">TabiWari</h1>
           <% end %>
-          <ul class="nav justify-content-end">
-            <% if user_signed_in? %>
-              <li class="nav-item">
-                <%= link_to groups_path, class: 'btn btn-outline-info btn-lg ml-5' do %>
-                  グループ一覧
-                <% end %>
-              </li>
-              <li class="nav-item">
-                <%= link_to destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-lg ml-5' do %>
-                  ログアウト
-                <% end %>
-              </li>
-            <% else %>
-              <li class="nav-item">
-                <%= link_to new_user_registration_path, class: 'btn btn-outline-success btn-lg' do %>
-                  新規登録
-                <% end %>
-              </li>
-              <li class="nav-item">
-                <%= link_to new_user_session_path, class: 'btn btn-outline-primary btn-lg ml-5' do %>
-                  ログイン
-                <% end %>
-              </li>
-              <li class="nav-item">
-                <%= link_to guest_sign_in_path, method: :post, class: 'btn btn-outline-secondary btn-lg ml-5' do %>
-                  ゲストログイン
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+            <ul class="navbar-nav">
+              <% if user_signed_in? %>
+                <li class="nav-item mx-2 my-1">
+                  <%= link_to groups_path, class: 'btn btn-outline-info btn-sm btn-block' do %>
+                    グループ一覧
+                  <% end %>
+                </li>
+                <li class="nav-item mx-2 my-1">
+                  <%= link_to destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-sm btn-block' do %>
+                    ログアウト
+                  <% end %>
+                </li>
+              <% else %>
+                <li class="nav-item mx-2 my-1">
+                  <%= link_to new_user_registration_path, class: 'btn btn-outline-success btn-sm btn-block' do %>
+                    新規登録
+                  <% end %>
+                </li>
+                <li class="nav-item mx-2 my-1">
+                  <%= link_to new_user_session_path, class: 'btn btn-outline-primary btn-sm btn-block' do %>
+                    ログイン
+                  <% end %>
+                </li>
+                <li class="nav-item mx-2 my-1">
+                  <%= link_to guest_sign_in_path, method: :post, class: 'btn btn-outline-secondary btn-sm btn-block' do %>
+                    ゲストログイン
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
         </div>
       </nav>
     </header>
