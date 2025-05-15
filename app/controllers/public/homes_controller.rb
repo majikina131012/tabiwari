@@ -5,4 +5,7 @@ class Public::HomesController < ApplicationController
       @groups = current_user.groups
     end
   end
+
+  def error
+  end
 end
