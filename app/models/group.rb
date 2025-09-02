@@ -38,7 +38,7 @@ class Group < ApplicationRecord
         settlements << {
           from: User.find(debtor_id),
           to: User.find(creditor_id),
-          amount: payment.round
+          amount: payment
         }
 
         balance[debtor_id] += payment
